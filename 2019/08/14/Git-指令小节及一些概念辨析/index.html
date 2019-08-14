@@ -87,13 +87,13 @@
 <meta property="og:site_name" content="Evin Yang">
 <meta property="og:description" content="Git 指令 mkdir learngit在当前文件夹创建一个名为 learngit 的文件夹cd learngit进入到 learngit 文件夹中pwd显示当前文件夹git init对文件夹进行初始化，使之成为一个repository，并产生一个隐藏文件.git">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/1565795463141.png">
-<meta property="og:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/1565795930594.png">
-<meta property="og:updated_time" content="2019-08-14T16:04:02.778Z">
+<meta property="og:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/masterbranch.jpg">
+<meta property="og:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/devbranch.jpg">
+<meta property="og:updated_time" content="2019-08-14T16:27:30.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 指令小节及一些概念辨析">
 <meta name="twitter:description" content="Git 指令 mkdir learngit在当前文件夹创建一个名为 learngit 的文件夹cd learngit进入到 learngit 文件夹中pwd显示当前文件夹git init对文件夹进行初始化，使之成为一个repository，并产生一个隐藏文件.git">
-<meta name="twitter:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/1565795463141.png">
+<meta name="twitter:image" content="http://qycl50224.github.io/2019/08/14/Git-指令小节及一些概念辨析/masterbranch.jpg">
 
 
 
@@ -392,7 +392,7 @@
 <h3 id="工作区和暂存区以及版本库的关系"><a href="#工作区和暂存区以及版本库的关系" class="headerlink" title="工作区和暂存区以及版本库的关系"></a>工作区和暂存区以及版本库的关系</h3><hr>
 <p>工作区，顾名思义，就是我们进行工作，敲代码，写文本的地方<br><code>repository</code>（版本库）就是一个帮我们保存管理我们通过工作留下的东西的地方<br><code>stage</code>（暂存区）是将修改<code>add</code>到的地方<br>然而git还可以记录尚未<code>add</code>但是已经发生更改的东西，它不属于暂存区，<br>应该算是前后工作区的对比<br><code>commit</code>就是把暂存区的东西放到版本库中，<code>commit</code>之前用<code>git diff --staged</code>可以看到暂存区和版本库间的差异，<code>commit</code></p>
 <h3 id="辨识日志中的分支线与点和HEAD"><a href="#辨识日志中的分支线与点和HEAD" class="headerlink" title="辨识日志中的分支线与点和HEAD"></a>辨识日志中的分支线与点和HEAD</h3><hr>
-<p><img src="./1565795463141.png" alt="Alt text"><br>HEAD指向谁表示我们当前在哪个分支上，上图中在<code>master</code>分支<br>那么如何辨别哪根线是<code>master</code>，哪根是<code>dev</code>呢？我们切换到<code>dev</code>分支查看下该分支下的线图就知道了<br><img src="./1565795930594.png" alt="Alt text"><br>区别很明显，当前在哪个分支，最左侧的线就是哪个分支<br>那一个个花瓣标志着在那个阶段有提交发生，也就是说产生了新的版本</p>
+<p><img src="masterbranch.jpg" alt><br>HEAD指向谁表示我们当前在哪个分支上，上图中在<code>master</code>分支<br>那么如何辨别哪根线是<code>master</code>，哪根是<code>dev</code>呢？我们切换到<code>dev</code>分支查看下该分支下的线图就知道了<br><img src="devbranch.jpg" alt><br>区别很明显，当前在哪个分支，最左侧的线就是哪个分支<br>那一个个花瓣标志着在那个阶段有提交发生，也就是说产生了新的版本</p>
 <h3 id="参考教程："><a href="#参考教程：" class="headerlink" title="参考教程："></a>参考教程：</h3><hr>
 <p><a href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener">廖雪峰的Git教程</a>（问答区有很多有意思的问题）<br><a href="https://www.zhihu.com/question/284554416" target="_blank" rel="noopener">怎么才能看懂git log线–知乎</a></p>
 
