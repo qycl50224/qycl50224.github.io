@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="cs61b,DataStructure,java,">
 
 
 
@@ -79,18 +79,27 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta name="keywords" content="no keywords">
+<meta name="description" content="QuadTreesUniform Partitioning 现在有一张图片，上面有一匹马，还有很多星球，把马和星球都视为不同的对象，现在我们想知道离马最近的对象是谁？ 显然，我们可以通过把所有对象与马之间的距离比较一遍来求得最近的对象，这样做的话复杂度为N。似乎不太好，接下来想办法降低复杂度  先来尝试一下哈希表，假如所有的对象都存储在哈希表中，让我们回忆一下哈希表的特性，他的所有成员有一个对应的">
+<meta name="keywords" content="cs61b,DataStructure,java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://qycl50224.github.io/2019/07/27/hello-world/index.html">
+<meta property="og:title" content="61b 16 Tries">
+<meta property="og:url" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/index.html">
 <meta property="og:site_name" content="Evin Yang">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="QuadTreesUniform Partitioning 现在有一张图片，上面有一匹马，还有很多星球，把马和星球都视为不同的对象，现在我们想知道离马最近的对象是谁？ 显然，我们可以通过把所有对象与马之间的距离比较一遍来求得最近的对象，这样做的话复杂度为N。似乎不太好，接下来想办法降低复杂度  先来尝试一下哈希表，假如所有的对象都存储在哈希表中，让我们回忆一下哈希表的特性，他的所有成员有一个对应的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-26T17:43:53.592Z">
+<meta property="og:image" content="https://joshhug.gitbooks.io/hug61b/content/assets/Screen%20Shot%202019-03-15%20at%2010.46.02%20AM.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222205532793.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222205639605.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222210204805.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222210624917.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222214040626.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222214302254.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/image-20200222214451775.png">
+<meta property="og:updated_time" content="2020-02-23T04:48:19.780Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="61b 16 Tries">
+<meta name="twitter:description" content="QuadTreesUniform Partitioning 现在有一张图片，上面有一匹马，还有很多星球，把马和星球都视为不同的对象，现在我们想知道离马最近的对象是谁？ 显然，我们可以通过把所有对象与马之间的距离比较一遍来求得最近的对象，这样做的话复杂度为N。似乎不太好，接下来想办法降低复杂度  先来尝试一下哈希表，假如所有的对象都存储在哈希表中，让我们回忆一下哈希表的特性，他的所有成员有一个对应的">
+<meta name="twitter:image" content="https://joshhug.gitbooks.io/hug61b/content/assets/Screen%20Shot%202019-03-15%20at%2010.46.02%20AM.png">
 
 
 
@@ -120,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://qycl50224.github.io/2019/07/27/hello-world/">
+  <link rel="canonical" href="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/">
 
 
 
 
 
-  <title>Hello World | Evin Yang</title>
+  <title>61b 16 Tries | Evin Yang</title>
   
 
 
@@ -263,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://qycl50224.github.io/2019/07/27/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://qycl50224.github.io/2020/02/23/cs61b第16章学习笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Evin Yang">
@@ -280,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">61b 16 Tries</h1>
         
 
         <div class="post-meta">
@@ -292,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-27T01:43:53+08:00">
-                2019-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-23T12:26:31+08:00">
+                2020-02-23
               </time>
             
 
@@ -303,6 +312,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -310,7 +341,7 @@
 
           
           
-             <span id="/2019/07/27/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/2020/02/23/cs61b第16章学习笔记/" class="leancloud_visitors" data-flag-title="61b 16 Tries">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -335,7 +366,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  73
+                  779
                 </span>
               
 
@@ -351,7 +382,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -372,19 +403,38 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <h1 id="QuadTrees"><a href="#QuadTrees" class="headerlink" title="QuadTrees"></a>QuadTrees</h1><h2 id="Uniform-Partitioning"><a href="#Uniform-Partitioning" class="headerlink" title="Uniform Partitioning"></a>Uniform Partitioning</h2><p><img src="https://joshhug.gitbooks.io/hug61b/content/assets/Screen%20Shot%202019-03-15%20at%2010.46.02%20AM.png" alt="img"></p>
+<p>现在有一张图片，上面有一匹马，还有很多星球，把马和星球都视为不同的对象，现在我们想知道离马最近的对象是谁？</p>
+<p>显然，我们可以通过把所有对象与马之间的距离比较一遍来求得最近的对象，这样做的话复杂度为N。似乎不太好，接下来想办法降低复杂度</p>
+<p> 先来尝试一下哈希表，假如所有的对象都存储在哈希表中，让我们回忆一下哈希表的特性，他的所有成员有一个对应的<strong>hashcode</strong>，分布是随机的，所以好像并没有什么可以用来减少比较次数，还是得全部比较一遍，所以不太好</p>
+<a id="more"></a>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>接下来尝试<strong>Uniform Partition</strong>，我们把图片分割为4x4的16个小方格，然后通过马的<code>x</code>和<code>y</code>了解到它在哪个区域，之后只需要对他所在的区域的周围一圈找就行了，这样我们就不用遍历整个图像，复杂度降到了<strong>N/16</strong>，可以发现，虽然有进步，但是并不明显，数量级没有发生变化</p>
+<h2 id="QuadTrees-1"><a href="#QuadTrees-1" class="headerlink" title="QuadTrees"></a>QuadTrees</h2><p>刚才用了两种方法，但是复杂度都在一个量级上面</p>
+<p>下面介绍四叉树，为什么我们还是想用树形结构来解决离最近的问题呢？因为树形结构能够清晰的表示和体现空间上的关系，但是哈希表却不行。</p>
+<h3 id="基于X和Y的树"><a href="#基于X和Y的树" class="headerlink" title="基于X和Y的树"></a>基于X和Y的树</h3><p>就是把<strong>x</strong>和<strong>y</strong>分开</p>
+<p><img src="image-20200222205532793.png" alt="image-20200222205532793"></p>
+<p><img src="image-20200222205639605.png" alt="image-20200222205639605"></p>
+<p>如第二图，<strong>X</strong>是经过优化的，也就是<strong>x</strong>符合我们原先的树的样子，但是<strong>Y</strong>是没有也无法优化的，这种情况下，当我们想找某个对象的时候，有可能他是被优化的，则进行剪枝操作，把右边的都剪了，我们的复杂度就变成了<strong>logN</strong>，但是如果他是没被优化的，则仍然是<strong>N</strong></p>
+<h3 id="QuadTree"><a href="#QuadTree" class="headerlink" title="QuadTree"></a>QuadTree</h3><p>先来看下结构</p>
+<p><img src="image-20200222210204805.png" alt="image-20200222210204805"></p>
+<p>每个节点有四个子枝，指向四个方向，也就是二维平面上的东北西北东南西南</p>
+<p><strong>四叉树和二叉树一样，我们插入节点的顺序决定了树的拓扑结构，</strong></p>
+<h3 id="在四叉树上进行搜索"><a href="#在四叉树上进行搜索" class="headerlink" title="在四叉树上进行搜索"></a>在四叉树上进行搜索</h3><p><img src="image-20200222210624917.png" alt="image-20200222210624917"></p>
+<p>在搜索的时候，看目标节点在哪个方向，活用<strong>剪枝</strong>操作剪掉其他三个方向的枝，来降低复杂度</p>
+<h2 id="K-D-Tree"><a href="#K-D-Tree" class="headerlink" title="K-D Tree"></a>K-D Tree</h2><p>直接看图吧</p>
+<p><img src="image-20200222214040626.png" alt="image-20200222214040626"></p>
+<p>LRDU是方向，可以看到，他相邻两级节点的子枝对应不同的方向，在上下和左右中切换</p>
+<p>从下图作出一个<strong>K-DTree</strong>有不止一种作法</p>
+<h3 id="用K-D树解决最邻近"><a href="#用K-D树解决最邻近" class="headerlink" title="用K-D树解决最邻近"></a>用K-D树解决最邻近</h3><p><img src="image-20200222214302254.png" alt="image-20200222214302254"></p>
+<p>有两个步骤</p>
+<ul>
+<li><p>决定一个根节点，计算它与目标节点的距离，然后因为根节点有两条子枝指向不同的方向，用这个方向把图片分成两部分<img src="image-20200222214451775.png" alt="image-20200222214451775"></p>
+<p>然后从他的两个子枝中找离目标节点更近的那个节点</p>
+</li>
+<li><p>对子枝上的节点重复上一个操作直到没有更近的</p>
+</li>
+</ul>
 
       
     </div>
@@ -400,6 +450,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/cs61b/" rel="tag"># cs61b</a>
+          
+            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
 
       
       
@@ -409,15 +469,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/02/23/cs61b第15章学习笔记/" rel="next" title="61b 15 Tries">
+                <i class="fa fa-chevron-left"></i> 61b 15 Tries
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/29/大一下学期总结/" rel="prev" title="不愿妥协--大一下学期总结">
-                不愿妥协--大一下学期总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -549,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#QuadTrees"><span class="nav-number">1.</span> <span class="nav-text">QuadTrees</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Uniform-Partitioning"><span class="nav-number">1.1.</span> <span class="nav-text">Uniform Partitioning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QuadTrees-1"><span class="nav-number">1.2.</span> <span class="nav-text">QuadTrees</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于X和Y的树"><span class="nav-number">1.2.1.</span> <span class="nav-text">基于X和Y的树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QuadTree"><span class="nav-number">1.2.2.</span> <span class="nav-text">QuadTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在四叉树上进行搜索"><span class="nav-number">1.2.3.</span> <span class="nav-text">在四叉树上进行搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-D-Tree"><span class="nav-number">1.3.</span> <span class="nav-text">K-D Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用K-D树解决最邻近"><span class="nav-number">1.3.1.</span> <span class="nav-text">用K-D树解决最邻近</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

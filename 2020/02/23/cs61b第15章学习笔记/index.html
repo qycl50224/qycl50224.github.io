@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cs61b,DataStructure,java,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="TriesIntroduction to Tries引入我们就前面所学的已经知道对于BST和Resizing Separate Chaining Hash Table有如下操作复杂度  Balanced Search Tree: contains(x): )Θ(logN) add(x): Θ(logN)   Resizing Separate Chaining Hash Table: contai">
+<meta name="keywords" content="cs61b,DataStructure,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="61b 15 Tries">
+<meta property="og:url" content="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/index.html">
+<meta property="og:site_name" content="Evin Yang">
+<meta property="og:description" content="TriesIntroduction to Tries引入我们就前面所学的已经知道对于BST和Resizing Separate Chaining Hash Table有如下操作复杂度  Balanced Search Tree: contains(x): )Θ(logN) add(x): Θ(logN)   Resizing Separate Chaining Hash Table: contai">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/image-20200222134830650.png">
+<meta property="og:image" content="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/image-20200222134914752.png">
+<meta property="og:updated_time" content="2020-02-23T04:48:18.493Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="61b 15 Tries">
+<meta name="twitter:description" content="TriesIntroduction to Tries引入我们就前面所学的已经知道对于BST和Resizing Separate Chaining Hash Table有如下操作复杂度  Balanced Search Tree: contains(x): )Θ(logN) add(x): Θ(logN)   Resizing Separate Chaining Hash Table: contai">
+<meta name="twitter:image" content="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/image-20200222134830650.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/">
+
+
+
+
+
+  <title>61b 15 Tries | Evin Yang</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?bbfc59dc6c33a7f41a1af758bea653d8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Evin Yang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">化学转行cs中</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://qycl50224.github.io/2020/02/23/cs61b第15章学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Evin Yang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Evin Yang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">61b 15 Tries</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-23T12:19:52+08:00">
+                2020-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/02/23/cs61b第15章学习笔记/" class="leancloud_visitors" data-flag-title="61b 15 Tries">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Tries"><a href="#Tries" class="headerlink" title="Tries"></a>Tries</h1><h2 id="Introduction-to-Tries"><a href="#Introduction-to-Tries" class="headerlink" title="Introduction to Tries"></a>Introduction to Tries</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p>我们就前面所学的已经知道对于<strong>BST</strong>和<strong>Resizing Separate Chaining Hash Table</strong>有如下操作复杂度</p>
+<ul>
+<li>Balanced Search Tree:<ul>
+<li><code>contains(x)</code>: )Θ(log<em>N</em>)</li>
+<li><code>add(x)</code>: Θ(log<em>N</em>)</li>
+</ul>
+</li>
+<li>Resizing Separate Chaining Hash Table:<ul>
+<li><code>contains(x)</code>: Θ(1) (assuming even spread)</li>
+<li><code>add(x)</code>: Θ(1) (assuming even spread and amortized)</li>
+</ul>
+</li>
+</ul>
+<p>对于哈希表，可以说运行速度已经很快了，那我们如何让他更快呢。已知在这种哈希表中我们自己写了代码把<strong>key</strong>转化为了一种对应的<strong>index</strong>，这个<strong>index</strong>上面也许有很多<strong>key</strong>用一个<strong>linked list</strong>连接起来，显然的</p>
+<a id="more"></a>
+
+<p>如果我们能够让转化这部分省略，也就是说直接把一个<strong>key</strong>对应到数组的某个位置上，就可以节约一部分运行时间</p>
+<p>现在让我们假设这个<strong>key</strong>是一个<strong>char</strong>类型，我们希望通过数组实现索引<strong>key</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataIndexedCharMap</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> V[] items;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataIndexedCharMap</span><span class="params">(<span class="keyword">int</span> R)</span> </span>&#123;</span><br><span class="line">        items = (V[]) <span class="keyword">new</span> Object[R];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">char</span> c, V val)</span> </span>&#123;</span><br><span class="line">        items[c] = val;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> items[c];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意这里的<strong>index</strong>是字母而非数字，为什么可以用<strong>char</strong>索引呢？这是因为每个<strong>char</strong>对应着一个独有的数字，但是不是每个数字都对应一个<strong>char</strong>，这是显然的，因为数有无限个，字符只有那么多</p>
+<h3 id="Inventing-the-Trie"><a href="#Inventing-the-Trie" class="headerlink" title="Inventing the Trie"></a>Inventing the Trie</h3><p><strong>Trie</strong>适用于<strong>key</strong>可以被分解为许多<strong>char</strong>的情况，比如字符串可以分解为很多<strong>char</strong>，还有就是<strong>key</strong>的前缀有相同的，也称之为可共享，马上我们可以从结构上直观的认识。</p>
+<p>下图是用之前说的<strong>BST</strong>和<strong>hash table</strong>来存储</p>
+<p><img src="image-20200222134830650.png" alt="image-20200222134830650"></p>
+<p>现在我们再来看一下用<strong>Trie</strong>来存储字符串</p>
+<p><img src="image-20200222134914752.png" alt="image-20200222134914752"></p>
+<p>蓝色的代表一个<strong>key</strong>，蓝色前面的成为<strong>prefix</strong>，<strong>prefix</strong>加<strong>key</strong>就成了一个<strong>String</strong>，是不是很直观</p>
+<p>可以看到有两个特点</p>
+<ol>
+<li>每个节点只存储一个字符</li>
+<li>节点是共享的，也就意味着可以节约空间</li>
+</ol>
+<p>接下来我们需要考虑的就是怎么去搜索遍历，显然，如果我们想要找的<strong>key</strong>对应的最后节点不存在或者为白色，则这个<strong>Trie</strong>中就没有我们想要找的<strong>key</strong>。</p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><ul>
+<li>首先要区分<strong>ADTs</strong>和<strong>specific implementation</strong>，举个例子，<strong>Disjoint Set</strong>是一种<strong>ADT</strong>，但是<strong>Trie</strong>是一种<strong>特定实现</strong></li>
+<li><strong>Trie</strong>是<strong>Map</strong>和<strong>Set</strong>的特定实现，专门用于字符串</li>
+<li><strong>Trie</strong>读作<code>try</code>或者<code>tree</code>都行哦</li>
+</ul>
+<h2 id="Implementation-and-Performance"><a href="#Implementation-and-Performance" class="headerlink" title="Implementation and Performance"></a>Implementation and Performance</h2><h3 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h3><p>ok，对于一个<strong>Trie</strong>，我们需要</p>
+<ol>
+<li><strong>节点</strong>，且每个节点要能连到下一个节点</li>
+<li>一个节点可以连到<strong>多个</strong>节点，<strong>char</strong>一共128个，</li>
+<li>节点可以储存一个<strong>key</strong></li>
+<li>节点可以表示为<strong>蓝色</strong></li>
+</ol>
+<p>所以有</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrieSet</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> R = <span class="number">128</span>; <span class="comment">// ASCII</span></span><br><span class="line">   <span class="keyword">private</span> Node root;    <span class="comment">// root of trie</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">char</span> ch;  </span><br><span class="line">      <span class="keyword">private</span> <span class="keyword">boolean</span> isKey;   </span><br><span class="line">      <span class="keyword">private</span> DataIndexedCharMap next;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">private</span> <span class="title">Node</span><span class="params">(<span class="keyword">char</span> c, <span class="keyword">boolean</span> blue, <span class="keyword">int</span> R)</span> </span>&#123;</span><br><span class="line">         ch = c; </span><br><span class="line">         isKey = blue;</span><br><span class="line">         next = <span class="keyword">new</span> DataIndexedCharMap&lt;Node&gt;(R);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样写的话缺点很明显，太<strong>浪费空间</strong>了，每个数组都是128的</p>
+<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>下面来看下用<strong>Trie</strong>实现的<strong>Map</strong>表现如何</p>
+<ul>
+<li><code>add</code>: Θ(1)</li>
+<li><code>contains</code>: Θ(1)</li>
+</ul>
+<p>可以发现，这个<strong>Trie</strong>中有多少成员其实与我们进行上述两个操作无关，因为我们无需遍历整个<strong>Trie</strong>，也即与<strong>key</strong>的个数无关。但是与<strong>key</strong>的长度是有关系的所以可以这样测量</p>
+<ul>
+<li><code>add</code>: Θ(<em>L</em>)</li>
+<li><code>contains</code>: O<em>(</em>L)  注意这里是O</li>
+</ul>
+<h3 id="Child-Tracking"><a href="#Child-Tracking" class="headerlink" title="Child Tracking"></a>Child Tracking</h3><p>上面说了刚才那种写法的缺点是浪费空间，我们不由自主的想起来之前学<strong>hash table</strong>的时候为了节约空间的写法，把很多个成员放在数组的一个格子里的链表中，当链表成员过多的时候又对数组进行<strong>resize</strong>。</p>
+<p>除了用<strong>hash table</strong>优化，也可以用<strong>BST</strong>，在需要更多<strong>child</strong>的时候增加<strong>pointer</strong>，但是<strong>BST</strong>的缺陷依旧在</p>
+<h2 id="Trie-String-Operation"><a href="#Trie-String-Operation" class="headerlink" title="Trie String Operation"></a>Trie String Operation</h2><h3 id="Prefix-Matching"><a href="#Prefix-Matching" class="headerlink" title="Prefix Matching"></a>Prefix Matching</h3><p><strong>Trie</strong>的一大特点就是可以进行高效的前缀匹配，操作就是沿着节点往下走一一匹配。这样我们可以轻松进行<code>longestPrefixOf</code>和<code>keyWithPrefix</code>，假设我们想获得所有<strong>key</strong>，下面是伪代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">collect():</span><br><span class="line">    Create an empty list of results x</span><br><span class="line">    For character c in root.next.keys():</span><br><span class="line">        Call colHelp(c, x, root.next.get(c))</span><br><span class="line">    Return x</span><br><span class="line"></span><br><span class="line">colHelp(String s, List&lt;String&gt; x, Node n):</span><br><span class="line">    if n.isKey:</span><br><span class="line">        x.add(s)</span><br><span class="line">    For character c in n.next.keys():</span><br><span class="line">        Call colHelp(s + c, x, n.next.get(c))</span><br></pre></td></tr></table></figure>
+
+<p>或者获得整个字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">keysWithPrefix(String s):</span><br><span class="line">    Find the end of the prefix, alpha</span><br><span class="line">    Create an empty list x</span><br><span class="line">    For character in alpha.next.keys():</span><br><span class="line">        Call colHelp(&quot;sa&quot; + c, x, alpha.next.get(c))</span><br><span class="line">    Return x</span><br></pre></td></tr></table></figure>
+
+<p>这个功能应用很广泛，比如搜索引擎上或者是IDE的自动补全和输入法里面都能用到</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cs61b/" rel="tag"># cs61b</a>
+          
+            <a href="/tags/DataStructure/" rel="tag"># DataStructure</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/23/cs61b第13章学习笔记/" rel="next" title="61b 13 Heaps and Priority Queues">
+                <i class="fa fa-chevron-left"></i> 61b 13 Heaps and Priority Queues
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/23/cs61b第16章学习笔记/" rel="prev" title="61b 16 Tries">
+                61b 16 Tries <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Evin Yang</p>
+              <p class="site-description motion-element" itemprop="description">i don't know what to describe</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tries"><span class="nav-number">1.</span> <span class="nav-text">Tries</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-to-Tries"><span class="nav-number">1.1.</span> <span class="nav-text">Introduction to Tries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入"><span class="nav-number">1.1.1.</span> <span class="nav-text">引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inventing-the-Trie"><span class="nav-number">1.1.2.</span> <span class="nav-text">Inventing the Trie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">1.1.3.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation-and-Performance"><span class="nav-number">1.2.</span> <span class="nav-text">Implementation and Performance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Implementation"><span class="nav-number">1.2.1.</span> <span class="nav-text">Implementation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Performance"><span class="nav-number">1.2.2.</span> <span class="nav-text">Performance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Child-Tracking"><span class="nav-number">1.2.3.</span> <span class="nav-text">Child Tracking</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trie-String-Operation"><span class="nav-number">1.3.</span> <span class="nav-text">Trie String Operation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prefix-Matching"><span class="nav-number">1.3.1.</span> <span class="nav-text">Prefix Matching</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Evin Yang</span>
+
+  
+</div>
+
+<div class="theme-info">
+  <i class="fa fa-user-md"></i>
+    <span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>次
+  </span>
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("fBw78NVOFmTrv3nxdaR1n3gX-gzGzoHsz", "GDgUEh4zATTqBnJ4xDuKGWCW");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
